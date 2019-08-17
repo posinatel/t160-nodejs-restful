@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const checkAuth = require('../middleware/check-auth');
+const notFound = require('../middleware/not-found');
 
 let db = {};
 let sequence = 0;
@@ -27,10 +28,10 @@ router.get('/', (request, response) => {
 });
 
 router.get('/:taskId', (request, response) => {
-  const id = request.params.taskId;
-  response.status(200).json({
-    message: `Task with ID = ${id} was fetched`
-  });
+  const task = db[request.params.taskId];
+  task
+    ? response.json(task)
+    : notFound(request, response);
 });
 
 router.patch('/:taskId', checkAuth, (request, response) => {
