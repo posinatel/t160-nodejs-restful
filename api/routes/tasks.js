@@ -2,8 +2,13 @@ const express = require('express');
 const router = express.Router();
 
 router.post('/', (request, response) => {
+  const task = {
+    done: request.body.done,
+    description: request.body.description
+  }
   response.status(200).json({
-    message: 'Task was created'
+    message: 'Task was created',
+    task
   });
 });
 
