@@ -37,7 +37,6 @@ router.get('/:taskId', (request, response) => {
 
 router.patch('/:taskId', checkAuth, (request, response) => {
   const task = db[request.params.taskId];
-
   if (task) {
     task.done = request.body.done || task.done;
     task.description = request.body.description || task.description;
