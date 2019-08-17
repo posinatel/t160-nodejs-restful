@@ -17,13 +17,13 @@ router.post('/', checkAuth, (request, response) => {
 
   response.status(201).json(newTask);
 });
-// TODO fix it for empty db
+
 router.get('/', (request, response) => {
   const toArray = key => db[key];
   const tasks = Object.keys(db).map(toArray);
   tasks && tasks.length
     ? response.json(tasks)
-    : response.status(204);
+    : response.status(204).end();
 });
 
 router.get('/:taskId', (request, response) => {
