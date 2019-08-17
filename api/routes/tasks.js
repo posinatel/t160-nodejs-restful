@@ -36,17 +36,27 @@ router.get('/:taskId', (request, response) => {
 });
 
 router.patch('/:taskId', checkAuth, (request, response) => {
-  const id = request.params.taskId;
-  response.status(200).json({
-    message: `Update task with ID = ${id}`
-  });
+  const task = db[request.params.taskId];
+
+  if (task) {
+    task.done = request.body.done || task.done;
+    task.description = request.body.description || task.description;
+    response.json(task);
+  } else {
+    notFound(request, response);
+  }
 });
 
 router.delete('/:taskId', checkAuth, (request, response) => {
-  const id = request.params.taskId;
-  response.status(200).json({
-    message: `Delete task with ID = ${id}`
-  });
+  const task = db[request.params.taskId];
+  if(task) {
+    delete db[task.id];
+    response.status(200).json({
+      message: 'Deleted'
+    });
+  } else {
+    notFound(request, response);
+  }
 });
 
 module.exports = router;
