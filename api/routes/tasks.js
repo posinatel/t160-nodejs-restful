@@ -22,14 +22,14 @@ router.get('/:taskId', (request, response) => {
   });
 });
 
-router.patch('/:taskId', (request, response) => {
+router.patch('/:taskId', checkAuth, (request, response) => {
   const id = request.params.taskId;
   response.status(200).json({
     message: `Task with ID = ${id} was updated`
   });
 });
 
-router.delete('/:taskId', (request, response) => {
+router.delete('/:taskId', checkAuth, (request, response) => {
   const id = request.params.taskId;
   response.status(200).json({
     message: `Task with ID = ${id} was deleted`
