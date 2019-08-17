@@ -47,10 +47,13 @@ router.patch('/:taskId', checkAuth, (request, response) => {
 });
 
 router.delete('/:taskId', checkAuth, (request, response) => {
-  const id = request.params.taskId;
-  response.status(200).json({
-    message: `Task with ID = ${id} was deleted`
-  });
+  const task = db[request.params.taskId];
+  if(task) {
+    delete db[task.id];
+    response.status(200).end();
+  } else {
+    notFound(request, response);
+  }
 });
 
 module.exports = router;
