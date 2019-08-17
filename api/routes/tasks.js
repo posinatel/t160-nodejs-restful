@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-router.post('/', (request, response) => {
+const checkAuth = require('../middleware/check-auth');
+
+router.post('/', checkAuth, (request, response) => {
   const task = {
     done: request.body.done,
     description: request.body.description
@@ -25,14 +27,14 @@ router.get('/:taskId', (request, response) => {
   });
 });
 
-router.patch('/:taskId', (request, response) => {
+router.patch('/:taskId', checkAuth, (request, response) => {
   const id = request.params.taskId;
   response.status(200).json({
     message: `Update task with ID = ${id}`
   });
 });
 
-router.delete('/:taskId', (request, response) => {
+router.delete('/:taskId', checkAuth, (request, response) => {
   const id = request.params.taskId;
   response.status(200).json({
     message: `Delete task with ID = ${id}`
