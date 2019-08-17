@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-router.post('/', (request, response) => {
+const checkAuth = require('../middleware/check-auth');
+
+router.post('/', checkAuth, (request, response) => {
   response.status(201).json({
     message: 'The task has been created'
   });
