@@ -3,21 +3,23 @@ const router = express.Router();
 
 const checkAuth = require('../middleware/check-auth');
 
+let db = {};
+let sequence = 0;
+
 router.post('/', checkAuth, (request, response) => {
-  const task = {
-    done: request.body.done,
+  const newTask = {
+    id: ++sequence,
+    done: request.body.done || false,
     description: request.body.description
   }
-  response.status(200).json({
-    message: 'Task was created',
-    task
-  });
+
+  db[newTask.id] = newTask;
+
+  response.status(201).json(newTask);
 });
 
 router.get('/', (request, response) => {
-  response.status(200).json({
-    message: 'Tasks were fetched'
-  });
+  response.status(204).json(db);
 });
 
 router.get('/:taskId', (request, response) => {
