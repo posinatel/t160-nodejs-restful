@@ -23,7 +23,7 @@ router.get('/', (request, response) => {
   const toArray = key => db[key];
   const tasks = Object.keys(db).map(toArray);
 
-  tasks.length
+  tasks && tasks.length
     ? response.json(tasks)
     : response.status(204);
 });
